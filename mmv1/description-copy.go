@@ -39,7 +39,7 @@ func CopyText(identifier string, last bool) {
 	}
 
 	for _, productPath := range allProductFiles {
-		if strings.Contains(productPath, "healthcare") {
+		if strings.Contains(productPath, "healthcare") || strings.Contains(productPath, "memorystore") {
 			continue
 		}
 		// Gather go and ruby file pairs
@@ -166,6 +166,11 @@ func terminateText(line string) bool {
 
 	if regexp.MustCompile(`^\s*https:[\s$]*`).MatchString(line) {
 		return false
+	}
+
+	// Whole line comments
+	if regexp.MustCompile(`^\s*#.*?`).MatchString(line) {
+		return true
 	}
 
 	return regexp.MustCompile(`^\s*[a-z_]+:[\s$]*`).MatchString(line)
